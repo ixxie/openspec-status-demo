@@ -1,0 +1,2 @@
+- [x] Token issuance endpoint
+- [x] Bearer verification middleware

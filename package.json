@@ -1,0 +1,13 @@
+{
+  "name": "openspec-status-demo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Demo of OpenSpec's proposed `lifecycle: status` mode — a legacy archive-mode project, migrated live, then the new workflow with one predicate gating pre-commit, pre-push and CI",
+  "scripts": {
+    "gate": "openspec sync --check",
+    "hooks": "git config core.hooksPath .githooks && echo 'hooks enabled'"
+  },
+  "dependencies": {
+    "@fission-ai/openspec": "github:ixxie/OpenSpec#lifecycle-sharding"
+  }
+}
