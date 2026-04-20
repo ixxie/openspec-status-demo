@@ -1,0 +1,2 @@
+- [x] Registry table + hardware-id uniqueness
+- [x] Register/deregister endpoints
