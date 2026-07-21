@@ -16,3 +16,11 @@ The system SHALL register beacons by hardware id before accepting their telemetr
 #### Scenario: Unknown hardware
 - **WHEN** an unregistered beacon submits a reading
 - **THEN** the system responds 404
+
+### Requirement: Beacon liveness
+
+The system SHALL mark a beacon offline when no heartbeat arrives within its reporting interval.
+
+#### Scenario: Heartbeat lapses
+- **WHEN** a beacon misses its heartbeat window
+- **THEN** the beacon is marked offline and operators are notified
