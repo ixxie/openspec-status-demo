@@ -70,6 +70,9 @@ npx openspec list                    # states across both migrated eras
 npx openspec list --status shipped   # the folded history
 npx openspec sync --check            # the predicate — green on this tree
 npx openspec ship batch-upload       # flip + fold, one diff (then: git checkout .)
+
+# the experiment is leaveable — reversal is a pure relayout, no spec text changes:
+npx openspec migrate --to archive --dry-run   # every archive date maps back exactly
 ```
 
 ## What this deliberately does not solve
