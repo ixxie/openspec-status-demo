@@ -1,0 +1,4 @@
+#!/bin/sh
+# Last local tier of the same gate CI enforces. Advisory by nature
+# (git's --no-verify skips hooks) — CI remains the gate.
+npx openspec sync --check

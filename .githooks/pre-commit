@@ -1,0 +1,5 @@
+#!/bin/sh
+# Tree-level predicate: any change declaring `status: shipped` must have its
+# deltas folded into openspec/specs/. Pure function of the files on disk —
+# no network, no model — so the identical check runs at pre-push and in CI.
+npx openspec sync --check
