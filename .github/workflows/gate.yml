@@ -12,6 +12,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # The git dependency's prepare script builds with pnpm.
+      - run: corepack enable && corepack prepare pnpm@9 --activate
       - run: npm ci
       - name: shipped ⇒ folded
         run: npx openspec sync --check
