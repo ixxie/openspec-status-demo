@@ -1,2 +1,2 @@
-- [ ] Batch endpoint
-- [ ] Idempotency keys
+- [x] Batch endpoint
+- [x] Idempotency keys
