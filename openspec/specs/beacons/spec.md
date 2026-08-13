@@ -24,3 +24,11 @@ The system SHALL mark a beacon offline when no heartbeat arrives within its repo
 #### Scenario: Heartbeat lapses
 - **WHEN** a beacon misses its heartbeat window
 - **THEN** the beacon is marked offline and operators are notified
+
+### Requirement: Batched telemetry upload
+
+The system SHALL accept a batch of telemetry readings in a single request.
+
+#### Scenario: Replay after outage
+- **WHEN** a gateway uploads a batch of buffered readings
+- **THEN** every reading is accepted or the batch is rejected atomically
