@@ -137,21 +137,52 @@ Honesty about the edges matters more than a clean pitch:
   pre-commit hook rejects an incoherent commit — but `--no-verify` exists, and
   CI only ever sees the head tree.
 
-## Scope: what's actually being proposed upstream
+## Two more decisions, and where they stand
 
-This repo demonstrates more than the proposal asks for. Keeping the two separate:
+### Layout: shard by creation date
 
-**Proposed now** — the mode itself: the `lifecycle` config flag, the `status`
-field, `sync` / `sync --check` / `ship`, the `list` surface, and `archive`
-refusing to run under status mode so the two models can never both claim a
-change.
+If nothing ever moves, `changes/` accumulates. This demo shards by a date
+**assigned at birth** — `changes/2026/03/15-add-user-auth/`. Creation date
+specifically, because it can never change; sharding by *shipped* date would
+smuggle the move back in, which is the thing the design removes. Discovery reads
+both layouts by rule: `YYYY`/`MM` are shards to walk into, anything else is a
+change, so flat projects keep working untouched.
 
-**Demonstrated here but deliberately *not* proposed** — the layout. This demo
-shards change directories by creation date (`changes/2026/03/15-add-user-auth/`)
-and includes a bidirectional `openspec migrate`. That was our answer to "if
-nothing moves, how does `changes/` stay navigable?" — but upstream
-[PR #1367](https://github.com/Fission-AI/OpenSpec/pull/1367) answers it better,
-with user-chosen *domains* discovered by a leaf marker rather than a date
-convention parsed out of regexes. Layout is a separable question, and that PR
-should win it. The date sharding you see in this repo's paths is scaffolding for
-the demo, not part of the pitch.
+**This is the decision most likely to be superseded, and we've said so
+upstream.** [PR #1367](https://github.com/Fission-AI/OpenSpec/pull/1367) proposes
+user-chosen *domains* under `changes/`, discovered by a leaf marker — a directory
+holding `.openspec.yaml` or `proposal.md` is a change — rather than a naming
+convention parsed out of regexes. That's a better mechanism, and domains carry
+meaning a calendar cannot. If it lands, this sharding should be dropped in favour
+of it. Everything above this section is independent of which layout wins; it only
+needs *nothing moving*.
+
+### Migration is bidirectional, because an experiment must be leaveable
+
+`openspec migrate` converts a legacy project in; `openspec migrate --to archive`
+converts it back out. Neither direction touches spec text — archive-mode `specs/`
+is folded shipped reality, which is exactly what status mode maintains — so
+reversal is a pure relayout, covered by a round-trip test. The reverse direction
+refuses while any shipped change has unfolded deltas, reusing the gate's own
+verdict rather than reimplementing it.
+
+An experiment users can leave is an experiment that can actually be removed. Try
+it here:
+
+```sh
+npx openspec migrate --to archive --dry-run   # every archive date maps back exactly
+```
+
+One thing the round trip can't preserve: a change shipped under status mode
+carries its *creation* date into an archive folder name where convention reads an
+*archival* date — archive mode never recorded the other one.
+
+## How this maps to the upstream proposal
+
+Everything in this document is part of one proposal,
+[Fission-AI/OpenSpec#1683](https://github.com/Fission-AI/OpenSpec/issues/1683),
+implemented in [PR #1684](https://github.com/Fission-AI/OpenSpec/pull/1684). The
+issue numbers its design decisions **I–X** so each can be accepted or rejected on
+its own — including VIII (this layout) and IX (this migration), which are the two
+we expect to move. This repo exists so those decisions can be argued about
+against something that runs, rather than in the abstract.

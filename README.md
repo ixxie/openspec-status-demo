@@ -93,13 +93,13 @@ time — not **how** it merges.
 including the honest costs: `ls` stops answering "what's in flight", and
 atomicity is a discipline rather than a guarantee.
 
-## Demo scaffolding vs. the actual proposal
+## Upstream
 
-This repo shows more than is being proposed. The **mode** — the `lifecycle` flag,
-the `status` field, `sync` / `sync --check` / `ship`, and `archive` refusing under
-status mode — is the proposal. The **layout** shown here (date-sharded
-`changes/YYYY/MM/DD-<name>/` paths and the bidirectional `openspec migrate`) is
-not: upstream [PR #1367](https://github.com/Fission-AI/OpenSpec/pull/1367) answers
-the layout question better, with user-chosen domains found by a leaf marker rather
-than dates parsed out of regexes. See
-[DESIGN.md](DESIGN.md#scope-whats-actually-being-proposed-upstream).
+This demo backs one proposal —
+[Fission-AI/OpenSpec#1683](https://github.com/Fission-AI/OpenSpec/issues/1683),
+implemented in [PR #1684](https://github.com/Fission-AI/OpenSpec/pull/1684). The
+issue numbers its design decisions **I–X** so each can be argued with
+individually; two of them (the date-sharded layout and the migration built on it)
+are ones we expect to change, and
+[DESIGN.md](DESIGN.md#two-more-decisions-and-where-they-stand) says why. This repo
+exists so that conversation can happen against something that runs.
