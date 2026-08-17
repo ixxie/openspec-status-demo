@@ -4,6 +4,12 @@ A working demo of a proposed OpenSpec experimental mode, **`lifecycle: status`**
 including a **live migration from the legacy workflow**. The history of this repo
 is the demo: read it commit by commit.
 
+> **Start with [DESIGN.md](DESIGN.md).** It explains what the mode is, why
+> `archive` doing two jobs in one command is the problem, why the gate is a tree
+> predicate (`shipped ⇒ folded`) rather than a schedule, what the design
+> deliberately does *not* solve — and which parts of this demo are actually being
+> proposed upstream versus which are scaffolding.
+
 Implementation lives on [`ixxie/OpenSpec#lifecycle-sharding`](https://github.com/ixxie/OpenSpec/tree/lifecycle-sharding)
 (stacked on [`lifecycle-status`](https://github.com/ixxie/OpenSpec/tree/lifecycle-status)),
 which this repo installs directly:
@@ -82,3 +88,18 @@ parallel-merge territory), and an edited delta cannot re-merge over an earlier
 fold without base snapshots — migrated history that was superseded in place
 would surface the same way. The mode changes **when** the merge may run — any
 time — not **how** it merges.
+
+[DESIGN.md](DESIGN.md#what-it-deliberately-does-not-solve) covers the full list,
+including the honest costs: `ls` stops answering "what's in flight", and
+atomicity is a discipline rather than a guarantee.
+
+## Demo scaffolding vs. the actual proposal
+
+This repo shows more than is being proposed. The **mode** — the `lifecycle` flag,
+the `status` field, `sync` / `sync --check` / `ship`, and `archive` refusing under
+status mode — is the proposal. The **layout** shown here (date-sharded
+`changes/YYYY/MM/DD-<name>/` paths and the bidirectional `openspec migrate`) is
+not: upstream [PR #1367](https://github.com/Fission-AI/OpenSpec/pull/1367) answers
+the layout question better, with user-chosen domains found by a leaf marker rather
+than dates parsed out of regexes. See
+[DESIGN.md](DESIGN.md#scope-whats-actually-being-proposed-upstream).
